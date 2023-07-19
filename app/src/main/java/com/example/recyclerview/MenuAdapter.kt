@@ -6,8 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MenuAdapter(private val items: List<Item>): RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
-
+interface OnClickListener{
+    fun onRowClick(item:Item)
+}
+class MenuAdapter(
+    private val items: List<Item>,
+    private val onClickListener: OnClickListener
+    ): RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_row, parent, false)
@@ -22,10 +27,16 @@ class MenuAdapter(private val items: List<Item>): RecyclerView.Adapter<MenuAdapt
         val currentItem = items[position]
         holder.text1.text = currentItem.name
         holder.text2.text = currentItem.description
+
+        holder.text2.setOnClickListener {
+            onClickListener.onRowClick(currentItem)
+        }
+
     }
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val text1: TextView = itemView.findViewById(R.id.text1)
         val text2: TextView = itemView.findViewById(R.id.text2)
     }
+
 
 }

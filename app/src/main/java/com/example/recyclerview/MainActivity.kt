@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnClickListener {
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,12 +18,16 @@ class MainActivity : AppCompatActivity() {
             Item("Item 2", "Description 2"),
             Item("Item 3", "Description 3")
         )
-        val adapter = MenuAdapter(itemList)
+        val adapter = MenuAdapter(itemList,this)
         val recyclerView: RecyclerView = findViewById(R.id.rv_menu_list)
 
         recyclerView.adapter = adapter
 
         adapter.notifyDataSetChanged()
         //kada je update lista
+    }
+
+    override fun onRowClick(item: Item) {
+        Toast.makeText(this,item.name,Toast.LENGTH_SHORT).show()
     }
 }
